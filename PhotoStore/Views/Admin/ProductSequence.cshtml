@@ -1,0 +1,27 @@
+﻿@*@model IEnumerable<Domain.Entities.Category>*@
+@model PhotoStore.Models.PagedViewModel<Domain.Entities.Product>
+
+
+@{
+    ViewBag.Title = "Сортировка товара внутри категорий";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class=""><a href="@Url.Action("Categories", "Admin")">Категории</a> <span class="divider">/</span></li>
+        <li class=""><a href="@Url.Action("CategorySequenceView", "Admin")">Сортировка категорий</a> <span class="divider">/</span></li>
+         <li class="active"><a href="@Url.Action("ProductSequenceView", "Admin", new { categoryId = @Model.Query.First().CategoryID})">Сортировка товаров в категории "@Model.Query.First().Category.CategoryName"</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+<h2>Сортировка товара внутри категорий</h2>
+
+
+<div>
+    @{
+        Html.RenderPartial("ProductSequenceGridPartial", Model);
+    }
+
+</div>

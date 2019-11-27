@@ -1,0 +1,246 @@
+﻿@using PhotoStore.Extensions
+@{
+    ViewBag.Title = "Contact";
+    Layout = null;
+}
+@*<link href="~/Content/css/main.css" rel="stylesheet" />*@
+<link href="@Url.Content("~/Content/Admin.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/css/calendar.css")" rel="stylesheet" type="text/css" />
+
+
+
+ <div id="wrap">
+            <div id="header">
+                <h1 id="logo-text">@Html.ActionLink("Административная панель", "Index", "Admin")</h1>
+                <p id="slogan">@Html.ActionLink("Здесь можно внести изменения в конфигурацию и БД", "Index", "Admin")</p>
+                
+                <div id="header-links">
+                    <a href="@Url.Action("Portfolio", "Home")">На сайт &nbsp;<span class="fa fa-external-link"></span></a>  
+                </div>
+            </div>
+            
+            
+            <div id="menu" class="">
+                <ul class="nav nav-tabs nav-justified">
+                    @Html.MenuItem("Главная", "Index", "Admin")
+                    @Html.MenuItem("Категории", "Categories", "Admin")
+                    @Html.MenuItem("Фотографии", "Products", "Admin")
+                    @Html.MenuItem("Календарь", "Calendar", "Admin")
+                    @Html.MenuItem("Комментарии", "Comments", "Admin")
+                    
+                    
+                    @{
+                        if (User.IsInRole("Admin") || User.IsInRole("ContentManager"))
+                        {
+                            @Html.MenuItem("Права", "UsersView", "Admin")    
+                        }
+                    }
+                </ul>
+            </div>					
+        
+        
+            <div id="content-wrap">
+                
+           
+              
+                <div id="main">
+                        <h2>Расписание</h2>
+                    <div id="calendar-container"></div>
+                    <div id="main-container">
+                        <div id="calendar"></div>
+                    </div>
+
+                </div>
+            </div>
+            
+            
+            
+            <div id="footer">
+			
+                <p>
+                    &copy; 2014 <strong>tropicana-store.ru</strong> | 
+                    ReDesign by: Воронцов Олег @*<a href="http://www.styleshout.com/">styleshout</a>*@
+			
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="@Url.Action("Portfolio", "Home")"><span class="fa fa-home"></span>&nbsp;Домой </a> | 
+                    <a href="@Url.Action("Sitemap", "Home")"><span class="fa fa-sitemap"></span>&nbsp;Карта сайта</a> | 
+                    <a href="@Url.Action("Robots", "Home")"><span class="fa fa-link"></span>&nbsp;Robots.txt</a> | 
+
+                    <a href="http://www.google.com/analytics/"><span class="fa fa-bar-chart-o"></span>&nbsp;Google Analytics</a> | 
+                    <a href="http://webmaster.yandex.ru"><span class="">Я</span>&nbsp;webmaster.yandex.ru</a> | 
+                    <a href="http://wordstat.yandex.ru/"><span class="fa fa-edit"></span>&nbsp;Wordstat</a> | 
+                    <a href="https://developers.google.com/speed/pagespeed/insights"><span class="fa fa-google"></span>&nbsp;PageSpeed</a> 
+                    @*@Html.ActionLink("Home", "Index") |
+                    @Html.ActionLink("Sitemap", "Sitemap") |
+                    @Html.ActionLink("RSS Feeds", "RSS")*@
+                    
+                    
+                    
+                    <script>
+                        //Loading element 
+
+                        function gifLoaderBefore() {
+                            var p = $('#jquery-loader');
+                            p.addClass('blue-with-image');
+                            var z = $('#jquery-loader-background');
+                            z.addClass('loader-bg');
+                            /*delay(0.1);*/
+
+                        };
+
+                        function gifLoaderAfter() {
+                            /*delay(1);*/
+                            var p = $('#jquery-loader');
+                            p.removeClass('blue-with-image');
+                            var z = $('#jquery-loader-background');
+                            z.removeClass('loader-bg');
+                        };
+                    </script>
+                    
+                    
+                    
+                       <script src="~/Scripts/js/jquery.calendar.js"></script>
+       
+
+                </p>
+				
+            </div>	
+          @* @MiniProfiler.RenderIncludes()*@
+        </div>
+        <div id="updateDialog"></div>
+        <div id="containers"></div>
+        
+          <div id="jquery-loader-background"></div>
+<div id="jquery-loader" class="" style=""></div>
+
+
+
+
+
+<style>
+    #calendar {
+        font-family: Helvetica,Arial,sans-serif;
+        background: url('/Content/images/bg-body.gif');    
+    }
+</style>
+
+
+
+
+
+
+
+
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+   <script src="@Url.Content("~/Scripts/js/jquery.calendar.js")" type="text/javascript"></script>
+
+
+
+<script>
+    $jq = jQuery.noConflict();
+    
+    $jq(document).ready(function () {
+        $jq("#main-container").calendar({
+            tipsy_gravity: 'n', // How do you want to anchor the tipsy notification? (n / s / e / w)
+            // post_dates: ["1", "2"],
+            click_callback: calendar_callback, // Callback to return the clicked date object
+
+            //  year: "2015", // Optional start year, defaults to current year - pass in a year - Integer or String
+            scroll_to_date: true // Scroll to the current day?
+        });
+    });
+
+    var calendar_callback = function (date) {
+     //   console.log("calendar_callback");
+        //$jq('#load').show();
+        $jq.post(
+            'BookDate',
+            date,
+            function (data) {
+                var dt = date.month + "/" + date.day + "/" + date.year;
+                var dtclass = date.month + "-" + date.day + "-" + date.year;
+                if (data.success == 'true') {
+                    //console.log(dt);
+                    var p = $jq('[data-date = \'' + dt + '\']');
+                    p.addClass("busy");
+                    p.attr("title", "\u0414\u0430\u0442\u0430 \u0437\u0430\u043d\u044f\u0442\u0430");
+                    
+                    //$jq('div.msg').append('<div class=' + dtclass + '>' + dt +'id:'+data.id + '<\div>');
+                    $jq('div.msg').append('<div class=' + dtclass + '><a href=EditCalendar?calendarId='+data.id+'>' + date.day + "-" + date.month + "-" + date.year + '\<a><\div>');
+
+                    //window.location.href = "Contact";
+                   // console.log("true");
+                } else {
+                    var p = $jq('[data-date = \'' + dt + '\']');
+                    p.removeClass("busy");
+                    p.removeAttr("original-title");
+                    
+                     $jq('.' + dtclass + '').remove();
+                }
+            });
+        
+        return false;
+
+
+    };
+</script>
+
+
+<style>
+    div.msg {
+        margin-bottom: 6px;
+	    margin-right: 17px;
+	    margin-left: 10px;
+		text-transform: uppercase;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+
+        background-color: gainsboro;
+        width: 150px;
+        /*height: 10px;*/
+        position: fixed;
+        bottom: 10px;
+        right: 100px;
+    }
+
+ 
+
+    #footer {
+        box-sizing: border-box;
+color: #C6DDEE;
+font-family: Verdana,Tahoma,arial,sans-serif;
+font-size: 11px;
+font-weight: 400;
+line-height: 13px;
+margin: 0;
+outline-color: #C6DDEE;
+        padding: 10px;
+text-align: center;
+
+    }
+
+  #menu ul li a {
+	display: block;
+	float: left;
+	padding: 0 12px;
+	color: #FFF;
+    text-decoration: none;
+    border: none;
+    padding-top: 5px;
+    padding-bottom: 10px;
+      margin-top: -10px;
+    
+}
+#menu ul li a:hover {
+	color: #084B8A /*#D4E59F*/;
+    background-color: #ffffff;
+
+}
+
+</style>
+
+
+
+<div class="msg"></div>
+

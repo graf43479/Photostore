@@ -1,0 +1,6 @@
+﻿@using MvcContrib.UI.Pager
+@using MvcContrib.Pagination
+@model IPagination
+
+
+@Html.Pager(Model).First("В начало").Last("В Конец").Next("Далее").Previous("Назад").Format("Показано {0}-{1} из {2} |")

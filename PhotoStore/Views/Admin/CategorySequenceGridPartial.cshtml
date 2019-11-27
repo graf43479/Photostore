@@ -1,0 +1,180 @@
+﻿@using MvcContrib.UI.Grid
+@using PhotoStore.Extensions
+@*@model IEnumerable<Domain.Entities.Category>*@
+@model PhotoStore.Models.PagedViewModel<Domain.Entities.Category>
+
+  
+@{
+    var singleProduct = TempData.Peek("SingProductCategories");
+    if (singleProduct==null)
+    {
+        singleProduct = 0;
+    }
+
+    var emptyCategory = TempData.Peek("EmptyCategories");
+    if (emptyCategory == null)
+    {
+        emptyCategory = 0;
+    }
+    
+    
+    //int[] s;
+     
+}
+<div id="sequence">
+ 
+    @Html.Grid(Model.PagedList).Columns(column =>
+        {
+            column.For(x => Html.ActionQueryLink(x.CategoryName, "EditCategory", new { categoryId = x.CategoryID })).SortColumnName("CategoryName").Named("Категория").Attributes(x =>
+          {
+              return new Dictionary<string, object> { { "style", "text-align: left" } };
+          });
+
+            // column.For(x => x.Sequence).SortColumnName("Sequence").Named("Приоритет");
+            //column.For(x => x.Name).SortColumnName("Name").Named("Категория");
+          @*  column.For(
+                x => Html.Raw(Ajax.ActionLink(" ", "CategorySequence", new { categoryId = x.CategoryID, actionType = "Up" }, new AjaxOptions
+                    {
+                        UpdateTargetId = "sequence",
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST"
+                    }, new {@class="Up"}).ToString()+" "+  (Ajax.ActionLink(" ", "CategorySequence", new { categoryId = x.CategoryID, actionType = "Down" }, new AjaxOptions
+                        {
+                            UpdateTargetId = "sequence",
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST"
+                        }, new { @class = "Down" }))).ToString()).Sortable(false).Named("Упорядочить").Encode(false);
+
+                        *@
+
+            column.For(
+               x => Html.Raw(Ajax.ActionLink(" ", "CategorySequence", new { categoryId = x.CategoryID, actionType = "Up" }, new AjaxOptions
+               {
+                   UpdateTargetId = "sequence",
+                   InsertionMode = InsertionMode.Replace,
+                   HttpMethod = "POST",
+                   OnBegin = "gifLoaderBefore",
+                   OnSuccess = "gifLoaderAfter",
+                   OnFailure = "gifLoaderAfter",
+                   OnComplete = "gifLoaderAfter"
+               }, new { @class = "glyphicon glyphicon-arrow-up btn btn-lg", @style = "color: #8EB50C;" }).ToString() + " " + (Ajax.ActionLink(" ", "CategorySequence", new { categoryId = x.CategoryID, actionType = "Down" }, new AjaxOptions
+               {
+                   UpdateTargetId = "sequence",
+                   InsertionMode = InsertionMode.Replace,
+                   HttpMethod = "POST",
+                   OnBegin = "gifLoaderBefore",
+                   OnSuccess = "gifLoaderAfter",
+                   OnFailure = "gifLoaderAfter",
+                   OnComplete = "gifLoaderAfter"
+               }, new { @class = "glyphicon glyphicon-arrow-down btn btn-lg", @style = "color: #8EB50C;" }))).ToString()).Sortable(false).Named("Упорядочить").Encode(false);
+
+               @*
+            column.For(x => Html.ActionQueryLink("Упорядочить", "ProductSequenceView", new {categoryId = x.CategoryID})).SortColumnName("Name").Named("Категория")
+                  .Attributes(x =>
+                      {
+                        
+                          foreach (int d in (int[])emptyCategory)
+                          {
+                              if (x.Item.CategoryID==d)
+                              {
+                                return new Dictionary<string, object> { { "class", "emptyCategory" } };
+                              }
+                          }
+
+                          foreach (int m in (int[])singleProduct)
+                          {
+                              if (x.Item.CategoryID == m)
+                              {
+                              return new Dictionary<string, object> { { "class", "singleProductCategory" }, { "style", "text-align: center" } };
+                              }
+                          }
+                          return new Dictionary<string, object> { { "class", "manyProductsInCategory" } };
+                      });
+                      *@
+           
+                      //////////////
+
+            column.For(x => Html.Raw("<a href = " + Url.Action("ProductSequenceView", "Admin", new { categoryId = x.CategoryID }) + " class='' ><span></span></a>")).Named("Options").Header(o => "<span class='glyphicon glyphicon glyphicon-sort'> </span>").Encode(false)
+                  .Sortable(false).Attributes(x =>
+      {
+
+          foreach (int d in (int[])emptyCategory)
+          {
+              if (x.Item.CategoryID == d)
+              {
+                  //return new Dictionary<string, object> { { "style", "background-color: red" } };
+
+                  //return new Dictionary<string, object> { { "style", "background: url('AdminImages/arrow_down.png') no-repeat; display: inline-block; width: 28px; height: 21px;" } };
+                  return new Dictionary<string, object> { { "class", "emptyCat" }, { "title", "В данной категории нет фотографий" } };
+              }
+          }
+
+          foreach (int m in (int[])singleProduct)
+          {
+              if (x.Item.CategoryID == m)
+              {
+                  //return new Dictionary<string, object> { { "style", "background: url('LightBox/img/close.png') no-repeat; display: inline-block; width: 28px; height: 21px;" } };
+                  // return new Dictionary<string, object> { { "class", "singleProductCategory" }, { "style", "text-align: center" } };
+                  return new Dictionary<string, object> { { "class", "singleCat" }, { "style", "text-align: center" }, { "title", "В данной категории одна фотография. Подробнее..." } };
+              }
+          }
+
+
+
+          //return new Dictionary<string, object> { { "style", "background: url('~/Content/AdminImages/square-green.png') no-repeat; display: inline-block; width: 28px; height: 21px;" } };
+          return new Dictionary<string, object> { { "class", "manyCat" }, { "title", "В данной категории множество фотографий. Подробнее..." } };
+          
+          
+          ////////////////////
+      });
+                      
+        }).Sort(Model.GridSortOptions).Attributes(@class => "table table-striped table-bordered table-hover table-condensed grid-style", @style => "margin-left:0;").Empty("Нет данных")
+
+</div>
+
+
+@*
+column.Custom(x => (x.IsActive) ? "Активен" : "Закрыт").SortColumnName("IsActive").Named("Статус").Attributes(x => {
+                          if (x.Item.IsActive==true)
+                          {
+        return new Dictionary<string, object> {{"style", "color:red; word-break: normal"}};
+                          }
+        return new Dictionary<string, object> { { "style", "color:grey; word-break: normal" } };
+        }).InsertAt(1); 
+*@
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".linkButton").click(
+            function (event) {
+                if (!confirm('Are you sure?')) return false;
+                event.preventDefault();
+                var link = event.target;
+                var action = link.href;
+                while (link.tagName != 'FORM') {
+                    alert(link.tagName);
+                    link = link.parentElement;
+                    //alert(link);
+                    if (!link) {
+                        //return alert('TROUBLE');
+                        break;
+                    }
+                }
+                link.action = action;
+                link.method = "POST";
+                link.submit();
+            });
+    });
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $(".emptyCat span").addClass("glyphicon glyphicon glyphicon-ban-circle btn-md btn btn-danger");
+        $(".singleCat span").addClass("glyphicon glyphicon glyphicon-pushpin btn-md btn btn-default");
+        $(".manyCat span").addClass("glyphicon glyphicon glyphicon-sort-by-attributes btn-md btn btn-success");
+    }); 
+</script>
+

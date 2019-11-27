@@ -1,0 +1,73 @@
+﻿@model Domain.Entities.Comment
+
+@{
+    Layout = null;
+}
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/fonts.css")"/>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/style.css")"/>
+
+
+<div class="wrappAdd">
+      
+    @using (@Html.BeginForm("SendComment", "Home", FormMethod.Post, new { @id = "form" }))
+    {
+        @Html.HiddenFor(x => x.CommentID)
+        @Html.HiddenFor(x=>x.IsAccept)
+        @Html.HiddenFor(x=>x.CreateDate)
+        <p>@Html.TextBoxFor(x => x.Tittle, new { @placeholder = "Представьтесь" })</p>
+        <p>@Html.TextAreaFor(x => x.Text, new { @placeholder = "Напишите пару строк", @row = "5" })</p>
+        
+        <div id="result"></div>  
+                
+        <p><input class="submit_rev" type="submit" name="submit" value="Отправить"> <img src="@Url.Content("~/Content/images/loading.gif")" id="load" /></p>
+    }
+    
+
+    
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")"></script>
+</div>
+
+
+    <script>
+        $('.submit_rev').click(function () {
+
+            $('#load').show();
+            var name = $('#Tittle').val();
+            var mes = $('#Text').val();
+            var comment = new Object();
+            comment.Tittle = name;
+            comment.Text = mes;
+
+
+
+            $.post(
+                'SendComment',
+                comment,
+                function (data) {
+                    
+                    if (data.success == 'true') {
+                        $(".wrappAdd").css("display", "none");
+                        $("a.lightcase-icon-close").click();
+                        parent.$("a.lightcase-icon-close").trigger("click");
+                    } else {
+                        //alert('Данные заполнены некорректно'+ ': ' + data.message);
+                        $("#result").text("");
+                        $("#result").css('display', 'block');
+                        $("#result").append('<ul>');
+                        for (var i = 0; i < data.message.length; i++) {
+                            if (data.message[i]!="") {
+                                //alert(data.message[i]);
+                                $("#result").append('<li style="color: red">' + data.message[i] + '</li>');
+                            }
+                        }
+                        $("#result").append('</ul>');
+                    }
+                    $('#load').hide();
+                });
+
+            return false;
+        });
+        
+    
+    
+    </script>

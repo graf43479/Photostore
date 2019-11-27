@@ -1,0 +1,49 @@
+﻿@model Domain.Entities.Message
+@{
+    Layout = null;
+    var dt = TempData["BookDate"];
+}
+
+
+@{ AjaxOptions ajax = new AjaxOptions
+   {
+       UpdateTargetId = "result",
+       //Url = Url.Action("ChangeQuantity"),
+       Url = Url.Action("Contact","Home"),
+       /*HttpMethod = "Post",*/
+       InsertionMode = InsertionMode.Replace,
+       HttpMethod = "POST",
+       OnBegin = "$('#load').show();",
+       OnSuccess = "afters",
+       //OnFailure = "gifLoaderAfter",
+       //OnComplete = "gifLoaderAfter"
+
+
+   }; 
+}
+<script>
+    function afters(data) {
+        $('#load').hide();
+        if (data == 'true') {
+            $('#result').html("<p>Ваше сообщение было успешно отправлено!<\p>");
+        }
+        ;
+    }
+</script>
+       
+        @using (Ajax.BeginForm(ajax))
+                                    {
+                                          @Html.ValidationSummary(true)
+            <p>@Html.TextBoxFor(x=>x.Name, new {@placeholder="Ваше имя"}) @Html.ValidationMessageFor(m => m.Name)</p>
+            <p>@Html.TextBoxFor(x=>x.Email, new {@placeholder="Email"}) @Html.ValidationMessageFor(m => m.Email)</p>
+            <p>@Html.TextAreaFor(x=>x.Text, new {@placeholder="Сообщение"}) @Html.ValidationMessageFor(m => m.Text)</p>
+            <p><input class="submit_login" type="submit" name="submit" value="Отправить"> <img src="@Url.Content("~/Content/images/loading.gif")" id="load" /></p>
+                                    }
+<script>
+    var dt = ('@dt');
+    if (dt!="") {
+        document.getElementById("Text").value = "Добрый день, прошу записать меня на дату: " + dt.substr(0, 10);
+    }
+    
+</script>
+                             

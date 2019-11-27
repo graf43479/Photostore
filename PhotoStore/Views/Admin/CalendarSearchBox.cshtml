@@ -1,0 +1,61 @@
+﻿@{ AjaxOptions ajax = new AjaxOptions
+   {
+       UpdateTargetId = "sequence",
+       Url = Url.Action("Calendar", "Admin"),
+       InsertionMode = InsertionMode.Replace,
+       HttpMethod = "GET"
+   };
+}
+
+@{
+    var dt1 = (TempData["startDate"] == null) ? DateTime.Now.ToShortDateString() : (string)TempData["startDate"];
+    var dt2 = (TempData["endDate"] == null) ? DateTime.Now.ToShortDateString() : (string)TempData["endDate"];
+}
+
+
+<style type="text/css">
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .pagination {
+        width: 1265px;
+        margin: 10px 0 ;
+
+    }
+
+    .table {
+        margin: 10px 0;
+    }
+</style>
+
+@*    @using (Html.BeginForm("Comments", "Admin", FormMethod.Get, new { @class = "form-horizontal", @style = "margin: 0 20px; padding: 0 20px;" }))*@
+    @using (Ajax.BeginForm("Calendar", "Admin", null, ajax, new { @class = "form-horizontal", @style = "margin: 10px 10px; padding: 0 20px;" }))
+    {
+        
+<div class="row" style="margin-top: 7px">
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group">
+            @*<label class="col-lg-2 col-md-2 form-control-static">Поиск</label>*@
+            <div class="col-lg-3" style="padding:  0;">@Html.TextBox("searchWord", null, new { @class = "form-control", @placeholder = "Введите поисковый запрос" })</div>
+            <label class="col-lg-1" style="text-align: right; padding: 5px;">С:</label>
+            <div class="col-lg-2" style="padding:  0;">@Html.TextBox("startDate", dt1, new { @class = "form-control" })</div>
+            <label class="col-lg-1" style="text-align: right; padding: 5px;">По:</label>
+            <div class="col-lg-2" style="padding:  0;">@Html.TextBox("endDate", dt2, new { @class = "form-control"})</div>
+            <input class="btn btn-info col-lg-offset-1  col-lg-2 " id="searcher-btn" value="Поиск" type="submit" />
+        </div>
+
+    
+</div>
+</div>    
+    }
+
+
+
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+
+
+
+
+  

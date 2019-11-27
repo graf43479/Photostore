@@ -1,0 +1,120 @@
+﻿@model PhotoStore.Models.ProductPagedListViewModel
+
+@{
+    Layout = null;
+    
+}
+
+<div id="portf-wrapper">
+<div class="navigation-portfolio">
+    <div class="wrapper">
+	    <ul>
+            @{
+                 Html.RenderAction("PortfolioMenu", "Nav");
+            }
+     </ul>
+	</div>
+</div>
+<div class="page wrapper">
+<div class="portfolio clearfix" id="portfolio">
+
+
+@Html.Partial("PortfolioAjaxPartialView", Model)
+</div>
+   @*@Html.Partial("_ProductListPagination")*@
+</div>
+</div>
+
+
+
+@*<script>
+    $(document).ready(function () {
+      
+   //     alert('!!');
+        $('#portfolio, #revs').freetile({
+            animate: true,
+            elementDelay: 30,
+            selector: '.portfolio-modal, .rev'
+        });
+    });
+    
+</script>*@
+
+
+<script type="text/javascript">
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() -10 && !NoMoreData && !inProgress) {
+
+            inProgress = true;
+            $("#loadingDiv").show();
+
+            var category = "";
+            var p = $(".navigation-portfolio li.active a").attr('href');
+            if (p!=undefined) {
+                category = p.substring(p.lastIndexOf("/") + 1);
+            }
+            $.post("@Url.Action("Portfolio", "Home")", { "category": category,"page": BlockNumber, "ajax": true },
+                function (data) {
+                    BlockNumber = BlockNumber + 1;
+                    NoMoreData = data.NoMoreData;
+                    $("#portfolio").append(data.HTMLString);
+                    $("#loadingDiv").hide();
+                    inProgress = false;
+
+
+                    $('a[data-rel^=lightcase]').lightcase({
+                        swipe: true,
+                        showTitle: false,
+                        showCaption: false,
+                        showSequenceInfo: false,
+                        closeOnOverlayClick: false,
+                        transition: 'scrollHorizontal',
+                        maxWidth: 1200,
+                        maxHeight: 800,
+                    });
+
+                    $('#portfolio').freetile({
+                        animate: true,
+                        elementDelay: 30,
+                        selector: '.portfolio-modal, .rev'
+                    });
+
+                });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    window.addEventListener('popstate', function (event) {
+        console.log("Page sta   te data:", event.state);
+    }, false);
+    var s = $(".navigation-portfolio li.active a").attr('href');
+    if ($.browser.msie != true) {
+        history.pushState(5, "Title 5", s);
+    }
+
+</script>
+
+
+<script>
+    var menu = $('.navigation-portfolio ul');
+    var a = menu.find('li');
+
+
+    a.hover(function() {
+        var t = $(this);
+        var s = $(this).siblings();
+        t.toggleClass('shadow');
+        s.toggleClass('blur');
+    });
+
+</script>
+
+
+
+<script>$('a[data-rel^=lightcase]').lightcase({ swipe: true, showTitle: false, showCaption: false, showSequenceInfo: false, closeOnOverlayClick: false, transition: 'scrollHorizontal', maxWidth: 1200, maxHeight: 800, });</script>
+

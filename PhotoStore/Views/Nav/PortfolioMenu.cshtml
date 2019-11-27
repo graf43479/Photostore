@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Domain.Entities.Category>
+@{
+    Layout = null;
+}
+
+@functions
+{
+
+    public string current(string shortName)
+    {
+        return (shortName == ViewBag.SelectedCategory) ? "active" : "";
+    }
+
+}
+        
+@foreach(var category in Model)
+       {
+        <li class="@current(category.ShortName)" style="">@Ajax.RouteLink(category.CategoryName.ToUpper(), "Category", new { category = category.ShortName, page = 1 }, 
+                                                                     new AjaxOptions
+                                                                     {
+                                                                         UpdateTargetId = "portf-wrapper",
+                                                                         InsertionMode = InsertionMode.Replace,
+                                                                         HttpMethod = "POST",
+                                                                         OnBegin = "$('#loadingDiv').show();$('#portfolio').hide();",
+                                                                         OnComplete = "$('#loadingDiv').show();$('#portfolio').show();$('a[data-rel^=lightcase]').lightcase({swipe: true,showTitle: false,showCaption: false,showSequenceInfo: false,closeOnOverlayClick: false,transition: 'scrollHorizontal',maxWidth : 1200,maxHeight : 800,});"
+                                                                     }, new {rel="follow, index"})
+        </li>        
+        }
+
+                

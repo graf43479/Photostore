@@ -1,0 +1,56 @@
+﻿@model Domain.Entities.Calendar
+@{
+    ViewBag.Title = "EditCalendar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Редактирование событий</h2>
+
+<style>
+    form {
+        border: none;
+    }
+</style>
+
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class=""><a href="@Url.Action("Calendar", "Admin")">Календарь</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("EditCalendar", new {calendarId = @Model.CalendarID})">Редактировать событие "@Model.CalendarDate.ToShortDateString()"</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+
+
+
+        @using (Html.BeginForm("EditCalendar", "Admin"))
+        {
+
+            <div class="editor-field"> @Html.HiddenFor(model => model.CalendarID)</div>
+
+            <div class="col-lg-12 col-md-12" style="padding: 0">
+                <div class="form-group" style="padding: 0">
+         
+     
+                    <div class="col-lg-1" style="padding: 0; "> @Html.Label("Дата") </div>    
+                    <div class="col-lg-3" style="padding: 0; margin-bottom: 5px;"> @Html.TextBoxFor(model => model.CalendarDate, new {@class = "form-control", @readonly="readonly"})</div>    
+                    
+                </div></div>
+            
+            <div class="col-lg-12 col-md-12" style="padding: 0; margin-bottom: 5px;">
+                <div class="col-lg-1 col-md-1 form-control-static" style="padding-left: 0px;"> @Html.Label("Текст") </div>    
+                <div class="col-lg-11 col-md-11" style="padding: 0; margin-bottom: 5px;"> @Html.TextAreaFor(model => model.CalendarDescription, new {@class = "form-control", @style = "min-height: 150px;"})</div>    
+            </div>
+            
+            <input class="btn btn-info col-lg-2 col-lg-offset-9" value="Сохранить" type="submit" style="margin-bottom: 20px"/>
+            <a class="btn btn-default col-lg-1" style="" href=@Url.Action("Calendar2")><i class="glyphicon glyphicon-calendar"></i></a>
+        }
+        
+        
+<script>
+    var p = $("#menu li a[href='/Admin/Calendar']");
+    p.parent().addClass("selected");
+</script>
+
+

@@ -1,0 +1,73 @@
+﻿@model PhotoStore.Models.PagedViewModel<PhotoStore.Models.CategoryViewModel>
+           
+@{
+    ViewBag.Title = "Категории";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("Categories", "Admin")">Категории</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+<h2>Список категорий</h2>
+         
+        
+
+@{
+    Html.RenderPartial("CategorySearchBox");
+}
+
+<div class="table-list" id="sequence">
+    
+    @{
+        Html.RenderPartial("CategoryGridPartial", Model);
+    }
+    
+</div>
+@*
+@{
+    Html.RenderPartial("Pager", Model.PagedList);
+}
+
+@Html.Grid(Model.PagedList).Columns(column =>
+{
+    column.Custom(x => MvcHtmlString.Create(string.Format("<a href='{0}'><img class='example-image-link' src='{1}/{2}/{3}' alt='{4}'/></a>",
+                                                          Url.Action("EditCategory", "Admin", new { categoryId = x.CategoryID }),
+                                                          Url.Content("~/Content"),
+                                                          Domain.Constants.CATEGORY_MINI_IMAGES_FOLDER,
+                                                          (string.IsNullOrWhiteSpace(x.ImageExt) || (System.IO.File.Exists(System.IO.Path.Combine(Server.MapPath
+                                                                                                                                                      (@Url.Content("~/Content")),
+                                                                                                                                                  Domain.Constants.CATEGORY_MINI_IMAGES_FOLDER, x.CategoryID.ToString() + x.ImageExt)))) != true ? "0.jpg" : x.CategoryID + x.ImageExt,
+                                                          x.Name
+                                                ))).Named("Изображение").Sortable(false).InsertAt(0);
+
+    column.For(x => Html.ActionQueryLink(x.Name, "EditCategory", new { categoryId = x.CategoryID })).SortColumnName("Name").Named("Категория").InsertAt(1);
+    column.Custom(x => MvcHtmlString.Create(string.Format("<form action='/Admin/DeleteCategory' method='post'> <input id='categoryId' name='categoryId' type='hidden' value='{0}' /><input type='submit' value='Удалить' /></form>", x.CategoryID)))
+          .Named("Действие").Sortable(false);
+}).Sort(Model.GridSortOptions).Attributes(@class => "grid-style").Empty("Нет данных")
+
+  *@
+
+
+
+@*<ul class="sidemenu">
+    <li>@Html.ActionLink("Добавить категорию", "EditCategory", null, new {@class = "btn btn-default"})</li>
+    <li>@Html.ActionLink("Обновить ссылки", "RefreshAllShortNamesInCategories")</li>
+    <li>@Html.ActionLink("Упорядочить категории", "CategorySequenceView")</li>
+    <li>@Html.ActionLink("Перейти в меню администратора", "Index")</li>
+    <li>@Html.ActionLink("Перейти в магазин", "Index", "Home")</li>
+</ul>*@
+
+@*<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>*@
+
+<div class="col-lg-12" style="padding: 10px">
+    <div class="">@Html.ActionLink("Добавить категорию", "EditCategory", null, new { @class = "btn btn-info col-lg-3", @style = "margin: 5px; color: white;", @tittle = "Добавить новую категорию" })</div>
+    <div class="">@Html.ActionLink("Обновить ссылки", "RefreshAllShortNamesInCategories", null, new { @class = "btn btn-info col-lg-3", @style = "margin: 5px; color: white", @tittle = "Обновить все ссылки на категории" })</div>
+    <div class="">@Html.ActionLink("Упорядочить категории", "CategorySequenceView", null, new { @class = "btn btn-info col-lg-3", @style = "margin: 5px; color: white", @tittle = "Изменить порядок отображения категорий на сайте" })</div>
+    <div class="">@Html.ActionLink("Перейти на сайт", "Index", "Home", null, new { @class = "btn btn-info col-lg-2", @style = "margin: 5px; color: white" })</div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model PhotoStore.Models.ErrorModel
+
+@{
+    ViewBag.Title = "Ошибка " +  Model.HttpStatusCode;
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    
+}
+<div class="page wrapper">
+<div class="revs clearfix" id="revs">
+    <div class="re1v photo">
+    <h2>Ошибка @Model.HttpStatusCode</h2>
+    <div>
+        Ой! Что-то пошло не так...    
+    </div>
+        <div id="errorMessage">
+            @{
+                string message = null;
+                switch (Model.HttpStatusCode)
+                {
+                    case 404:
+                        message = "Увы, запрошенная страница не обнаружена!";        
+                        break;
+                    case 500:
+                        message = string.Concat("Произошла следующая ошибка:<br /> ", Model.Exception.Message);
+                        break;
+                    default:
+                        message = string.Concat("Произошла неизвестная ошибка:<br /> ", Model.Exception.Message);
+                        break;
+                }
+            }
+    
+            <p>@Html.Raw(message)</p>
+        
+            <img src="@Url.Content("~/Content/images/error.jpg")"/>
+        </div>
+        </div></div>
+
+</div>
+

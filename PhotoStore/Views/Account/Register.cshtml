@@ -1,0 +1,57 @@
+﻿@model PhotoStore.Models.RegisterModel
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    ViewBag.Robots = "nofollow, noindex";   
+}
+
+
+<div class="page wrapper">
+    <div class="auth-form">
+        <section id="loginForm">
+            <h2>Создание новой учетной записи.</h2>
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+   @* @Html.AntiForgeryToken()*@
+                //@Html.ValidationSummary(true)
+
+                <fieldset>
+                    <legend>Форма регистрации</legend>
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <table>
+                        <tr>
+                            <td> @Html.LabelFor(m => m.Login)</td>
+                            <td>@Html.TextBoxFor(m => m.Login)</td>
+                            <td>@Html.ValidationMessageFor(m => m.Login)</td>
+                        </tr>       
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Password)</td>
+                            <td>@Html.PasswordFor(m => m.Password)</td>
+                            <td>@Html.ValidationMessageFor(m => m.Password)</td>
+                        </tr>    
+                        <tr>
+                            <td>@Html.LabelFor(m => m.ConfirmPassword)</td>
+                            <td>@Html.PasswordFor(m => m.ConfirmPassword)</td>
+                            <td>@Html.ValidationMessageFor(m => m.ConfirmPassword)</td>
+                        </tr>    
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Email)</td>
+                            <td>@Html.PasswordFor(m => m.Email)</td>
+                            <td>@Html.ValidationMessageFor(m => m.Email)</td>
+                        </tr>    
+                    
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="Регистрация" /></td>
+                            <td></td>
+                        </tr>      
+                    </table>
+                </fieldset>
+            }
+        </section>
+    </div>
+</div>
+
+

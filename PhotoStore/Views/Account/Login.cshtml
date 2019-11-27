@@ -1,0 +1,134 @@
+﻿@model PhotoStore.Models.LoginModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    ViewBag.Title = "Авторизация";
+    ViewBag.Robots = "nofollow, noindex";   
+}
+
+@{
+    if (Session["attempt"] == null)
+    {
+        Session["attempt"] = 0;
+    }
+    
+}
+   
+
+<div class="page wrapper">
+    <div class="auth-form">
+        <section id="loginForm">
+            <h2>Авторизация.</h2>
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+   @* @Html.AntiForgeryToken()*@
+                //@Html.ValidationSummary(true)
+
+                <fieldset>
+                    <legend>Форма входа</legend>
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                
+                
+                    <table>
+                        <tr>
+                            <td> @Html.LabelFor(m => m.UserName)</td>
+                            <td>@Html.TextBoxFor(m => m.UserName)</td>
+                            <td>@Html.ValidationMessageFor(m => m.UserName)</td>
+                        </tr>       
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Password)</td>
+                            <td>@Html.PasswordFor(m => m.Password)</td>
+                            <td>@Html.ValidationMessageFor(m => m.Password)</td>
+                        </tr>    
+                        <tr>
+                            <td></td>
+                            <td>@Html.CheckBoxFor(m => m.RememberMe) @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })</td>
+                            <td></td>
+                        </tr>            
+                    
+                                            
+                        @if ((int)Session["attempt"] > 3)
+                        {
+                            <tr>
+                                <td>Ответ:</td>
+                                <td><a href="@Url.Action("Login")"><img alt="Capcha" src="@Url.Action("CaptchaImage")" style=""/></a></td>
+                                <td></td>
+                            </tr>   
+                            <tr>
+                                <td>@Html.LabelFor(m => m.Captcha)</td>
+                                <td>@Html.TextBoxFor(m => m.Captcha)</td>
+                                <td>@Html.ValidationMessageFor(x => x.Captcha, null, new { @class = "help-inline" })</td>
+                            </tr>        
+                        }
+                    
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="Войти" /></td>
+                            <td></td>
+                        </tr>            
+                        
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>   
+                        
+                        <tr>
+                            
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>            
+                    </table>
+            
+    
+                    @**@
+            
+
+                
+                    @*<input type="submit" value="Выполнить вход" />*@
+                </fieldset>
+            
+    
+               
+    
+            }
+        </section>
+        
+        
+        <div class = "login-submenu">
+                            
+                            
+                        
+                        
+                         @if(User.Identity.Name != "")
+                                {
+                                     
+                                        <p>Имя пользователя: @User.Identity.Name</p>
+                                        <p>Админские права: @(User.IsInRole("admin")? "Есть" : "Нет")</p>
+                                     
+                             <div>
+                                <p>@Html.ActionLink("Выйти", "LogOff", null, new {@class="action-btn"})</p>
+                                 <p>
+                                     @Html.ActionLink("Изменить пароль", "ChangePassword", null, new {@class="action-btn"})
+                                 </p>
+                                 
+                             </div>              
+                                }
+                                else
+                                {
+                                    <div>
+                                        <p>@Html.ActionLink("Зарегистрируйтесь", "Register", null, new {@class="action-btn"}), если у вас нет учетной записи. @Html.ActionLink("Забыли пароль?", "ForgottenPassword", null, new {@class="action-btn"})</p>
+                                        <p></p>
+                                
+                                    </div>        
+                                }
+        
+        </div>
+    </div>
+
+</div>
+
+
+

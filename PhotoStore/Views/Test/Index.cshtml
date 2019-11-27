@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "Index";
+   // Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+
+<h2>Index</h2>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Product</h1>
+            </hgroup>
+            <div id="Grid" style="height: 380px"></div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/kendo.web.min.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Grid").kendoGrid({
+            columns: [
+                {
+                    template: "<div class='customer-photo'" +
+                                    "style=''><img src='/Content/img/cache/Image#:ProductID##:ImgExt#' style='width: 140px;'></img></div>",
+                    //field: "CategoryName",
+                    //title: "Contact Name",
+                    width: 40
+                },
+                { field: "ProductID", title: "ProductID", editable: false, width: "10px" },
+                {
+                    field: "CategoryName", title: "Category", width: "30px", editor: categoryDropDownEditor, template: "#=CategoryName#",
+                },
+                //{ field: "CategoryID", title: "CategoryID", width: "10px"},
+                { field: "IsDisplay", title: "IsDisplay", width: "15px", template: "<input name='IsDisplay' class='ob-paid' type='checkbox' data-bind='checked: IsDisplay' #= IsDisplay ? checked='checked' : '' #/>" },
+                { field: "IsChoosen", title: "IsChoosen", width: "15px", template: "<input name='IsChoosen' class='ob-paid' type='checkbox' data-bind='checked: IsChoosen' #= IsChoosen ? checked='checked' : '' #/>" },
+                { field: "ImgExt", title: "ImgExt", width: "15px" },
+                {
+                    field: "StartDate", title: "StartDate", width: "15px", template: "#= kendo.toString(StartDate,'dd.MM.yyyy') #",
+                    //filterable: {
+                    //    multi: true,
+                    //    //when serverPaging of the Grid is enabled, dataSource should be provided for all the Filterable Multi Check widgets
+                    //    dataSource: {
+                    //        transport: {
+                    //            read: {
+                    //                url: "/odata/ProductAPI", //telerikWebServiceBase + "Employees/Unique",
+                    //                dataType: "jsonp",
+                    //                //contentType: "application/json",
+                    //                data: {
+                    //                    field: "StartDate"
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                },
+                { field: "UpdateDate", title: "UpdateDate", width: "15px", template: "#= kendo.toString(UpdateDate,'dd.MM.yyyy') #" },
+                //{ command: "edit", title: "Edit", width: "10px" },
+                //{ command: "update", title: "Update", width: "10px" },
+                { command: "destroy", title: "Delete", width: "10px" },
+            ],
+            pageable: true,
+            pageSize: 5,
+            height: 750,
+            sortable: true,
+            filterable: true,
+            editable: true,
+            
+           // editable: "popup", 
+            //toolbar: ["create"],
+            //toolbar: ["create", "save", "cancel"],
+            toolbar: ["save", "cancel"],
+            dataSource: {
+                autoSync: true,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                pageSize: 5,
+                type: "odata",
+                schema: {
+                    data: function (response) {
+                        if (response.value !== undefined)
+                            return response.value; 
+                        else{
+                            delete response["odata.metadata"];
+                            return response;
+                        }
+                    },
+                    total: function (response) {
+                        return response['odata.count'];
+                    },
+                    model: {
+                        id: "ProductID",
+                        fields: {
+                            ProductID: { editable: false, nullable: true}, //type: "number"
+                            //CategoryID: { editable: false},
+                            //CategoryName: { validation: { required: true }, editable: true },
+                            //IsChoosen: { type: "boolean", nullable: false },
+                            IsChoosen: { type: "boolean", nullable: false },
+                            IsDisplay: { type: "boolean", nullable: false },
+                            //CategoryName: { field: "CategoryName", title: "Category", width: "30px", editor: categoryDropDownEditor, template: "#=CategoryName#" },
+                            CategoryName: { editable: true, nullable: false, filterable: { multi: true } },
+                            ImgExt: { editable: true, nullable: false },
+                            StartDate: { editable: true, nullable: false, type: "date" },
+                            UpdateDate: { editable: true, type: "date" },
+                       
+                            //Price: { nullable: false, type: "number" },
+                            //CategoryID: {  type: "number",validation: { required: true }, editable: true},
+                            
+                        }
+                        
+                        /*
+                        
+                { field: "CategoryName", title: "Category", width: "30px", editor: categoryDropDownEditor, template: "#=CategoryName#" },
+                { field: "IsDisplay", title: "IsDisplay", width: "15px", template: "<input name='IsDisplay' class='ob-paid' type='checkbox' data-bind='checked: IsDisplay' #= IsDisplay ? checked='checked' : '' #/>" },
+                { field: "IsChoosen", title: "IsChoosen", width: "15px", template: "<input name='IsChoosen' class='ob-paid' type='checkbox' data-bind='checked: IsChoosen' #= IsChoosen ? checked='checked' : '' #/>" },
+                { field: "ImgExt", title: "Price", width: "15px" },
+                { field: "StartDate", title: "StartDate", width: "15px" },
+                { field: "UpdateDate", title: "UpdateDate", width: "15px" },
+                        */
+                    },
+                },
+                /*
+                    public int ProductID { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public int Sequence { get; set; }
+        public string ImgExt { get; set; }
+        public string Path { get; set; }
+        public bool IsDisplay { get; set; }
+        public bool IsChoosen { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryID { get; set; }
+                */
+
+                batch: false,
+                error: error,
+                transport: {
+                    create: {
+                        url: "/odata/ProductAPI",
+                        contentType: "application/json",
+                        type: "POST",
+                    },
+                    read: {
+                        url: "/odata/ProductAPI",
+                        dataType: "json",
+                        contentType: "application/json",
+
+                    },
+                    update: {
+                        url: function (record) {
+                            return "/odata/ProductAPI" + "(" + record.ProductID + ")";
+                        },
+                        dataType: "json",
+                        contentType: "application/json",
+                        type: "PUT",
+                        headers: { Prefer: "return-content" }
+                    },
+                    destroy: {
+                        url: function (record) {
+                            return "/odata/ProductAPI" + "(" + record.ProductID + ")";
+                        },
+                        contentType: "application/json",
+                        type: "DELETE"
+                    },
+                    parametermap: function (data, operation) {
+                        console.log(data);
+                        if (operation === "read") {
+                            var parammap = kendo.data.transports.odata.parametermap(data);
+                            return parammap;
+                        }
+                        return json.stringify(data);
+                    }
+                }
+            }
+        });
+
+
+    });
+
+    function categoryDropDownEditor(container, options) {
+        $('<input data-bind="value:CategoryID"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                dataTextField: "CategoryName",
+                dataValueField: "CategoryID",
+                optionLabel: "--Select Value--",
+                dataSource: {
+                    schema: {
+                        data: "value",
+                        total: function (response) {
+                            return response['odata.count'];
+                        },
+                        model: {
+                            id: "CategoryID",
+                            fields: {
+                                CategoryID: { editable: false, type: "number" },
+                                CategoryName: { type: "string", nullable: false },
+
+                            }
+                        },
+                    },
+                    type: "odata",
+                    serverFiltering: true,
+                    serverPaging: true,
+                    pageSize: 20,
+                    transport: {
+                        read: {
+                            url: "/odata/CategoryAPI",
+                            dataType: "json",
+                            contentType: "application/json"
+                        }
+                    },
+                    parametermap: function (data, operation) {
+                        if (operation === "read") {
+                            var parammap = kendo.data.transports.odata.parametermap(data);
+                            return parammap;
+                        }
+                        return json.stringify(data);
+                    }
+                },
+
+            });
+    }
+</script>
+
+<script>
+    function error(e) {
+        if (e.errorThrown === "Bad Request") {
+            var response = JSON.parse(e.xhr.responseText);
+            console.log(response);
+            if (response['odata.error'] != undefined) {
+                alert(response['odata.error'].message.value)
+            }
+        }
+        else {
+            alert(e.status + ": " + e.errorThrown)
+        }
+    };
+</script>

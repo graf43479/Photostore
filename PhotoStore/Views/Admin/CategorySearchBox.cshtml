@@ -1,0 +1,88 @@
+﻿
+<style type="text/css">
+    .form-group {
+        margin-bottom: 5px;
+        margin-top: 7px;
+    }
+
+ 
+</style>
+
+@{ AjaxOptions ajax = new AjaxOptions
+   {
+       UpdateTargetId = "sequence",
+       Url = Url.Action("Categories", "Admin"),
+       InsertionMode = InsertionMode.Replace,
+       HttpMethod = "GET"
+   };
+}
+
+@*@using (Html.BeginForm("Categories", "Admin", FormMethod.Get))
+{*@
+
+
+
+
+            @*@using (Html.BeginForm("Categories", "Admin", FormMethod.Get, new { @class = "form-horizontal", @style = "margin: 0 20px; padding: 0 20px;" }))*@
+            @using (Ajax.BeginForm(ajax))
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 10px">
+            <div class="form-group">
+
+                <label class="col-lg-1 col-md-1 form-control-static">Поиск</label>
+                <div class="col-lg-9 col-md-9">@Html.TextBox("searchWord", null, new { @class = "form-control", @placeholder = "Введите поисковый запрос" })</div>
+                <div class="col-lg-2 col-md-2">
+                    <input class="btn btn-info col-md-12 col-lg-12" id="searcher" value="Поиск" type="submit" style="" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+        @*@using (Html.BeginForm("Categories", "Admin", FormMethod.Get, new {@class = "form-horizontal", @style = "margin: 0 20px; padding: 0 20px;"}))
+            {
+                <div class="form-group">
+                    <label class="col-lg-1 col-md-1 form-control-static">Поиск</label>
+                    <div class="col-lg-9 col-md-9" >@Html.TextBox("searchWord", null, new {@class = "form-control", @placeholder = "Введите поисковый запрос"})</div>
+                    <div class="col-lg-2 col-md-2">
+                        <input class="btn btn-info col-md-12 col-lg-12" value="Поиск" type="submit" style="" />
+                        </div>
+                    </div>
+
+            }*@
+
+
+
+
+@*}*@
+
+
+@*<script>
+
+    $(document).ready(function () {
+        $("#categoryActivity, #superCategoryId").addClass("form-control");
+
+    });
+</script>*@
+
+
+
+
+
+@*@using (Ajax.BeginForm(ajax))
+{
+    @Html.ValidationSummary(true)
+    <p>@Html.TextBoxFor(x => x.Name, new { @placeholder = "Ваше имя" }) @Html.ValidationMessageFor(m => m.Name)</p>
+    <p>@Html.TextBoxFor(x => x.Email, new { @placeholder = "Email" }) @Html.ValidationMessageFor(m => m.Email)</p>
+    <p>@Html.TextAreaFor(x => x.Text, new { @placeholder = "Сообщение" }) @Html.ValidationMessageFor(m => m.Text)</p>
+    <p><input class="submit_login" type="submit" name="submit" value="Отправить"> <img src="@Url.Content("~/Content/images/loading.gif")" id="load" /></p>
+}*@
+
+
+@*div class="table-list" id="sequence">*@
+
+
+
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>

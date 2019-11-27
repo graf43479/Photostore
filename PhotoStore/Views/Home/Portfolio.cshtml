@@ -1,0 +1,44 @@
+﻿@*@model IEnumerable<Domain.Entities.Product>*@
+@using Domain.Entities
+@model PhotoStore.Models.ProductPagedListViewModel
+
+@{
+    
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    ViewBag.Robots = "follow, index";
+    
+}
+
+@{
+    try
+    {
+        if (String.IsNullOrEmpty(Model.CurrentCategory))
+        {
+            ViewBag.Title = "Порфтолио";
+            ViewBag.Snippet = "Портфолио фотографа. Свадебная фотосъемка";
+            ViewBag.Keywords = "Портфолио свадьбы фотографии мероприятия памятные события";
+        }
+        else
+        {
+            Category p = @Model.Products.FirstOrDefault(x => x.Category.CategoryName != null).Category;
+            ViewBag.Title = p.CategoryName;
+            ViewBag.Snippet = p.Snippet;
+            ViewBag.Keywords = p.Description;
+        }
+        
+    }
+    catch (Exception)
+    {
+        //ViewBag.Title = "Категория товара";
+    }
+}
+
+
+
+@Html.Partial("PortfolioPartialView", Model)
+
+<div id="loadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+    <img alt="Loading" src="@Url.Content("~/Content/Images/ajax-loader.gif")"/>
+</div>
+
+

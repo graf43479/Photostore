@@ -1,0 +1,101 @@
+﻿
+@{ AjaxOptions ajax = new AjaxOptions
+   {
+       UpdateTargetId = "sequence",
+       Url = Url.Action("UsersView", "Admin"),
+       InsertionMode = InsertionMode.Replace,
+       HttpMethod = "GET"
+   };
+}   
+
+<style type="text/css">
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .pagination {
+        width: 1265px;
+        margin: 10px 0 ;
+
+    }
+
+    .table {
+        margin: 10px 0;
+    }
+</style>
+
+
+
+ @using (Ajax.BeginForm("UsersView", "Admin", null, ajax, new { @class = "form-horizontal", @style = "margin: 10px 10px; padding: 0 20px;" }))
+    {
+        <div class="row" style="margin-top: 7px">
+    <div class="col-lg-12 col-md-12">
+
+        <div class="form-group">
+            @*<label class="col-lg-1 form-control-static">Поиск</label>*@
+            <div class="col-lg-4 " style="padding: 0;">@Html.TextBox("searchWord", null, new { @class = "form-control", @placeholder = "Введите поисковый запрос" })</div>
+             <div class="col-lg-2" >
+                  @Html.DropDownList("userActivity", new SelectList(new[] { "Активные", "Неактивные" }))
+              </div>
+            <div class="col-lg-3 "  style="padding: 0; ">
+                @Html.DropDownList("roleId", "Роли")
+            </div>
+            <input class="btn btn-info col-lg-offset-1  col-lg-2 " id="searcher-btn" value="Поиск" type="submit" />
+        </div>
+
+    </div>
+</div>    
+          
+    }
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#roleId, #userActivity").addClass("form-control");
+
+
+
+        //$("#categoryId").addEventListener('focus', function () {
+        //    // Список открылся
+        //}, false);
+         $("#roleId").change(function () {
+            $("#searcher-btn").click();
+         });
+         $("#userActivity").change(function () {
+             $("#searcher-btn").click();
+         });
+        
+    });
+</script>
+
+
+
+
+@*@using (Html.BeginForm("UsersView", "Admin", FormMethod.Get, new { @class = "form-horizontal", @style = "margin: 0 20px; padding: 0 20px;" }))*@
+@*@using (Ajax.BeginForm("UsersView", "Admin", null, ajax, new { @class = "form-horizontal", @style = "margin: 10px 10px; padding: 0 20px;" }))
+{
+    <div class="row" style="margin-top: 7px">
+      <div class="col-lg-12">
+          <div class="form-group">
+              <div class="col-lg-5">@Html.TextBox("searchWord", null, new { @class = "form-control", @placeholder = "Введите поисковый запрос" })</div>
+        
+              
+              <div class="col-lg-2" >
+                  @Html.DropDownList("userActivity", new SelectList(new[] { "Активные", "Неактивные" }))
+              </div>
+              
+              <div class="col-lg-2" >@Html.DropDownList("roleId", "Роли")</div>
+        
+              <input class="btn btn-info col-lg-offset-1  col-lg-2 " id="searcher-btn" value="Поиск" type="submit" />
+          </div>
+      </div>       
+    </div>
+}
+*@
+
+
+
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+

@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+@functions
+{
+public string Current(string part)
+    {
+        return (part == (string)TempData["nav-message"]) ? "active" : "";
+    }
+    }
+
+
+<li class="@Current("Portfolio")">@Html.ActionLink("Портфолио", "Portfolio","Home")</li>
+@{
+    if ((string)TempData["mobile"] == "mobile")
+    {
+        <ul>
+            @{Html.RenderAction("PortfolioMenu", "Nav");}
+        </ul>
+         
+    }
+    }
+
+
+<li class="@Current("Price")">@Html.ActionLink("Цены", "Price", "Home", null, new {rel="follow, index"})</li>
+<li class="@Current("About")">@Html.ActionLink("Обо мне", "About", "Home", null,new {rel="follow, index"})</li>
+<li class="@Current("Calendar")">@Html.ActionLink("Календарь", "Calendar", "Home", null,new {rel="nofollow, noindex"})</li>
+<li class="@Current("Contact")">@Html.ActionLink("Контакты", "Contact", "Home", null,new {rel="follow, index"})</li>
+<li class="@Current("Comments")">@Html.ActionLink("Отзывы", "Comments", "Home", null,new {rel="follow, index"})</li>
+                        @if (HttpContext.Current.User.IsInRole("admin"))
+                        {
+                            <li class="">@Html.ActionLink("Админка", "Categories","Admin")</li>
+                        }
+    
+    
+				

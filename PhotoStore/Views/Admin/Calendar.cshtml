@@ -1,0 +1,65 @@
+﻿@model PhotoStore.Models.PagedViewModel<Domain.Entities.Calendar>
+@{
+    ViewBag.Title = "Calendar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("Calendar", "Admin")">Календарь</a> <span class="divider">/</span></li>
+    }
+</ul>
+@{
+    ViewBag.Title = "Календарь";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Календарь</h2>
+
+
+
+@{
+    Html.RenderPartial("CalendarSearchBox");
+}
+
+<div class="table-list" id="sequence">
+    @{
+        Html.RenderPartial("CalendarGridPartial", Model);
+    }
+</div>
+
+          <script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-ui-1.8.24.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/js/lightcase.js")" type="text/javascript"></script>
+
+            @*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+            <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+            <script src="@Url.Content("~/Scripts/adminjs/jquery-FixingBug.js")" type="text/javascript"></script>
+            <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+   @*         <script src="@Url.Content("~/Scripts/adminjs/jquery.maskedinput.min.js")" type="text/javascript"></script>*@
+            @*<script src="@Url.Content("~/Scripts/adminjs/datepicker.js")" type="text/javascript"></script>*@
+        @*<script src="@Url.Content("~/Scripts/adminjs/bootstrap.min.js")" type="text/javascript"></script>*@
+        
+        
+<div>
+
+  @*@Html.ActionLink("Календарь", "Calendar2", null, new {@id="go"})*@
+</div>
+
+
+        
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#startDate, #endDate').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        $.datepicker.setDefaults({ dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'] });
+        $.datepicker.setDefaults({ monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'] });
+        $("#ui-datepicker-div").hide();
+
+    });
+</script> 
+
+

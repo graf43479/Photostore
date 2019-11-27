@@ -1,0 +1,37 @@
+﻿@model PhotoStore.Models.ProductPagedListViewModel
+
+@{
+    Layout = null;
+}
+
+
+        @foreach (var product in Model.Products)
+        {
+            
+            <a href="@(Url.Content("~/Content"))/@(Domain.Constants.PRODUCT_IMAGE_FOLDER)/@(String.Format("Image"))@product.ProductID@product.ImgExt" 
+               class="showcase portfolio-modal" data-rel="lightcase:myCollection">
+               
+                <img src="@(Url.Content("~/Content"))/@(Domain.Constants.PRODUCT_IMAGE_FOLDER)/@(Domain.Constants.PRODUCT_IMAGE_PREVIEW_FOLDER)/@(String.Format("Image"))@product.ProductID@product.ImgExt" 
+                     alt="@product.Category.CategoryName"/>
+            </a>
+            
+            
+        }
+        @*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")"></script>*@
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.backstretch.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/wookmark.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.events.touch.js")"></script>*@
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/js/lightcase.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.flex.js")"></script>*@
+
+
+
+<script>
+    $('#portfolio').freetile({
+        animate: true,
+        elementDelay: 30,
+        selector: '.portfolio-modal, .rev'
+    });
+
+</script>
+    

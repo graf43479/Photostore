@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.Entities
+{
+    public class Calendar
+    {
+        [Key]
+        public int CalendarID { get; set; }
+        public DateTime CalendarDate { get; set; }
+        public string CalendarDescription { get; set; }
+    }
+}

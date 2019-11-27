@@ -1,0 +1,29 @@
+﻿@*@model IEnumerable<Domain.Entities.User>*@
+@model PhotoStore.Models.PagedViewModel<PhotoStore.Models.UserViewModel>
+@{
+    ViewBag.Title = "Клиенты";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("UsersView", "Admin")">Учетные записи клиентов</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+<h2>Учетные записи клиентов</h2>
+
+@{
+    Html.RenderPartial("UserSearchBox");
+}
+
+<div class="table-list" id="sequence">
+@{
+   Html.RenderPartial("UserGridPartial", Model);
+ }
+ </div>
+
+ 
+

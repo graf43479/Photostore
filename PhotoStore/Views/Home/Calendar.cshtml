@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Календарь";
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+}
+
+@*<link href="~/Content/css/calendar-main.css" rel="stylesheet" />*@
+<link href="~/Content/css/calendar.css" rel="stylesheet" />
+
+@*<h2>Calendar</h2>*@
+<div class="page wrapper">
+    <div class="page-content">
+        <div id="calendar-container"></div>
+        <div id="main-container">
+            <div id="calendar"></div>
+    
+        </div>
+    </div>
+</div>
+
+
+
+
+       <script src="~/Scripts/js/jquery.calendar.js"></script>
+        <script>
+            $(document).ready(function() {
+                $.post(
+                    '/home/GetBookedDates',
+                    //date,
+                    function (data) {
+                        for (var i = 0; i < data.success.length; i++) {
+                            var dt = data.success[i].Month + "/" + data.success[i].Day + "/" + data.success[i].Year;
+                            var p = $('[data-date = \'' + dt + '\']');
+                            p.addClass("busy");
+                            p.attr("title", "Дата занята");
+                        }
+                        //$('#load').hide();
+                    });
+                
+                return false;
+            });
+            
+            $(document).ready(function () {
+                $("#main-container").calendar({
+                    tipsy_gravity: 'n', 
+                    // post_dates: ["1", "2"],
+                    click_callback: calendar_callback, // Callback to return the clicked date object
+                    //  year: "2015",
+                    scroll_to_date: true // Scroll to the current day?
+                });
+            });
+
+            var calendar_callback = function(date) {
+
+                $('#load').show();
+                $.post(
+                    'Home/BookDate',
+                    date,
+                    function (data) {
+
+                        if (data.success == 'true') {
+                            window.location.href = "Contact";
+                        } else {
+                            alert("Указнная дата занята");
+                        }
+                        //$('#load').hide();
+                    });
+                console.log(date);
+                return false;
+            };
+        </script>
+
+
+

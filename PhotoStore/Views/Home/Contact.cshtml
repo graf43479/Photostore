@@ -1,0 +1,32 @@
+﻿@model Domain.Entities.Message
+@{
+    ViewBag.Title = "Контакты";
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    ViewBag.Robots = "follow, index";
+    ViewBag.Keywords = "Контакты фотограф свадебная съемка";
+    ViewBag.Snippet = "Контакты фотографа";
+}
+
+
+<div class="page wrapper">
+    <div class="clearfix">
+        <div class="contactLeft">
+            <h2>(985) 975-88-10</h2>
+            <p>adaoceanfoto@gmail.com</p><br />
+            <p><a href="http://vk.com/adaocean">http://vk.com/adaocean</a></p>
+            <p><a href="#"></a></p>
+            <p><a href="https://www.facebook.com/adaoceanfoto">https://www.facebook.com/adaoceanfoto</a></p>
+            <p><a href="https://twitter.com/AdaOcean">https://twitter.com/AdaOcean</a></p>
+            <p><a href="http://vimeo.com/user19682450">http://vimeo.com/user19682450 </a></p>      
+            <p><a href="http://adaocean.livejournal.com/">http://adaocean.livejournal.com/</a></p>    
+            <p><a href="http://instagram.com/adaocean">http://instagram.com/adaocean</a></p>      	
+        </div>
+        <div class="contactRight">
+            <div id="result">
+                @Html.Partial("ContactPartialView", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

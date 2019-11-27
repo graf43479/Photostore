@@ -1,0 +1,39 @@
+﻿@model PhotoStore.Models.ProductPagedListViewModel
+
+
+<ul class="pagination">
+                @{
+                    for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                    {
+                        if (i==Model.PagingInfo.CurrentPage)
+                        {
+                         <li class="active">@Ajax.RouteLink(i.ToString(), new { controller = "Home", action = "Portfolio", page = i, category = Model.CurrentCategory }, new AjaxOptions
+                                                {
+                                                  UpdateTargetId = "portf-wrapper",
+                                                                    InsertionMode = InsertionMode.Replace,
+                                                                    HttpMethod = "GET"
+                                                                })    
+                                                </li>                                
+                        }
+                        else
+                        {
+                    
+                     <li>@Ajax.RouteLink(i.ToString(), new { controller = "Home", action = "Portfolio", page = i, category = Model.CurrentCategory }, new AjaxOptions
+                                   {
+                                       UpdateTargetId = "portf-wrapper",
+                                       InsertionMode = InsertionMode.Replace,
+                                       HttpMethod = "GET"
+                                     
+                                   })   
+                                      
+                                                </li>            
+                        }
+                    }
+                }
+</ul>   
+
+<style>
+    ul.pagination li.active {
+        background-color: red;
+    }
+</style>

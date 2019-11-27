@@ -1,0 +1,67 @@
+@media (max-width:750px) {
+	.navigation-portfolio, .navigation {
+		display: none;
+	}
+	.button-menu {
+		display: block;
+	}
+}
+@media (min-width: 450px) and (max-width:750px) {
+	.header .logo {
+		text-align: left;
+		padding-left: 15px;
+	}
+	.revs .rev, .portfolio a {
+		width: 49%;
+	}
+}
+
+@media (min-width: 350px) and (max-width: 450px) {
+	.revs .rev {
+		width: 100%;
+	}
+	.header .logo {
+		text-align: left;
+		padding-left: 10px;
+	}
+	.header .phone {
+		display: none;
+	}
+	.revs .rev, .portfolio a {
+		width: 49%;
+	}
+	.indexMenu {
+		text-align: center;
+	}
+	.contactLeft, .contactRight {
+		width: 100%;
+		float: none;
+		padding: 15px 30px 15px 15px;
+	}
+	.page-content img {
+		display: none;
+	}
+}
+@media (max-width: 349px) {
+	.revs .rev, .portfolio a {
+		width: 100%;
+	}
+	.header .phone {
+		display: none;
+	}
+	.indexMenu {
+		text-align: center;
+	}
+	.header .logo {
+		text-align: left;
+		padding-left: 10px;
+	}
+	.contactLeft, .contactRight {
+		width: 100%;
+		float: none;
+		padding: 15px 30px 15px 15px;
+	}
+	.page-content img {
+		display: none;
+	}
+}

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Главная";
+    Layout = "~/Views/Shared/_LayoutIndexExtended.cshtml";
+}
+@*@section featured {
+    <section class="featured">
+        
+    </section>
+}*@
+
+<div class="wrapper indexMenu">
+		<ul>
+	        <li class="logo">
+		        <img src="@Url.Content("~/Content/images/logotypeColor.png")" alt="Ada Ocean" />
+	        </li>
+		    <li>@Html.ActionLink("Портфолио", "Portfolio", null, new { rel = "follow, index" })</li>
+		    <li>@Html.ActionLink("Цены", "Price", null, new { rel = "follow, index" })</li>
+		    <li>@Html.ActionLink("Обо мне", "About", null, new { rel = "follow, index" })</li>
+            <li>@Html.ActionLink("Календарь", "Calendar", null, new { rel = "nofollow, noindex" })</li>
+		    <li>@Html.ActionLink("Контакты", "Contact", null, new { rel = "follow, index" })</li>
+		    <li>@Html.ActionLink("Отзывы", "Comments", null, new { rel = "follow, index" })</li>
+		    
+                 @if (HttpContext.Current.User.IsInRole("admin"))
+                        {
+                     	    <li>@Html.ActionLink("Админка", "Index", "Admin",null, new { rel = "nofollow, noindex" })</li>
+                        }
+    
+    
+		    <li class="phone">
+		        <h2 class="phone">(985) 975-88-10</h2>
+		        <p class="soc">Я в соцсети:</p><p class="soc">
+		                                           <a target="_blank" href="https://www.facebook.com/adaoceanfoto" rel="nofollow, noindex">
+		                                               <img src="@Url.Content("~/Content/images/face.png")" alt="" width="25" />
+		                                           </a> 
+		                                           <a target="_blank" href="http://instagram.com/adaocean" rel="nofollow, noindex">
+		                                               <img src="@Url.Content("~/Content/images/inst.png")" alt="" width="25" />
+		                                           </a> 
+		                                           <a target="_blank" href="http://adaocean.livejournal.com/" rel="nofollow, noindex">
+		                                               <img src="@Url.Content("~/Content/images/jj.png")" alt="" width="25" />
+		                                           </a> 
+                                                   <a target="_blank" href="http://vimeo.com/user19682450" rel="nofollow, noindex">
+		                                                    <img src="@Url.Content("~/Content/images/lj.png")" alt="" width="25" />
+		                                           </a> 
+                                                   <a target="_blank" href="https://twitter.com/AdaOcean" rel="nofollow, noindex">
+		                                                         <img src="@Url.Content("~/Content/images/twitter.png")" alt="" width="25" />
+		                                                     </a> <a target="_blank" href="http://vk.com/adaocean" rel="nofollow, noindex">
+		                                                              <img src="@Url.Content("~/Content/images/vk.png")" alt="" width="25" />
+		                                                          </a> 
+		                                       </p>	
+		    </li>
+		</ul>
+</div>
+<div class="page wrapper">
+</div>
+<div class="over-modal">
+    <div class="close"></div>
+</div>

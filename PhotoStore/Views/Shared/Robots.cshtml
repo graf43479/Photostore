@@ -1,0 +1,11 @@
+﻿@{
+    Layout = null;
+}
+
+# robots.txt for @this.Request.Url.Host
+
+User-agent: *
+Disallow: /Admin/
+Disallow: /Account/
+Host: @this.Request.Url.Host
+Sitemap: http://@this.Request.Url.Host/sitemap.xml

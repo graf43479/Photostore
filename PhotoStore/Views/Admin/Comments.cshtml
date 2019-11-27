@@ -1,0 +1,25 @@
+﻿@model PhotoStore.Models.PagedViewModel<Domain.Entities.Comment>
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Комментарии</h2>
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("Comments", "Admin")">Комментарии</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+
+@{
+    Html.RenderPartial("CommentSearchBox");
+}
+
+<div class="table-list" id="sequence">
+@{
+   Html.RenderPartial("CommentGridPartial", Model);
+ }
+ </div>

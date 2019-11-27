@@ -1,0 +1,115 @@
+﻿@using MvcContrib.UI.Grid;
+@using PhotoStore.Extensions
+@*@model IEnumerable<Domain.Entities.User>*@
+@model PhotoStore.Models.PagedViewModel<PhotoStore.Models.UserViewModel>
+
+
+
+@{TempData["Query"] = Model.Query;}
+
+
+@helper Truncate(string input, int length)
+ {
+    if (input.Length <= length) {
+        @input
+    } else {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+
+
+@using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Post))
+{
+    
+    <div class="col-lg-12" style="padding: 0; margin: 10px 0 10px 0;">
+        <button type="submit" class="btn btn-md btn-danger" id="remove-prod" style=""><span class="glyphicon glyphicon-remove">&nbsp;</span>Удалить выбранное</button>
+    </div>
+    Html.RenderPartial("Pager", Model.PagedList);
+    
+@Html.Grid(Model.PagedList).Columns(column =>
+    {
+        column.Custom(a => Html.Raw("<input type='checkbox' class='reqPayment' name='resubmit' value='" + a.UserID + "'/>")).Header(o => "<input type=\"checkbox\" id='chkHeader' />")
+                                           .Encode(false)
+                                           .Sortable(false)
+                                           .HeaderAttributes(new Dictionary<string, object> { { "style", "width:20px" } });
+
+
+        column.For(x => Html.ActionQueryLink(x.Login, "EditUser", new { userId = x.UserID })).SortColumnName("Login").Named("Логин");
+
+        column.For(x => x.Email).SortColumnName("Email").Named("Email");
+        column.For(x => x.RoleName).SortColumnName("RoleName").Named("Роль");
+        
+        
+        column.For(x => Html.ActionQueryLink(x.Created.ToShortDateString(), "EditUser", new {userId = x.UserID})).SortColumnName("Created").Named("Дата");
+      @*  column.Custom(x => Html.ActionLink("Удалить", "DeleteUser", new { userID = x.UserID }, new { onclick = "javascript:return confirm('Are you  sure?');" })).Named("Действие").Sortable(false).Attributes(x =>
+            {
+                return new Dictionary<string, object> { { "style", "text-align: center" } };
+            });
+            *@
+        @*column.For(x => Html.ActionLink("Удалить", "DeleteUser", new { userID = x.UserID }, new { @class = "linkButton", onclick = "javascript:return confirm('Are you  sure?');" })).Named("Options").Sortable(false).Attributes(x =>
+        {
+            return new Dictionary<string, object> { { "style", "text-align: center" } };
+        });
+        *@
+        
+
+        column.Custom(x => Html.Raw("<a href = " + Url.Action("EditUser", "Admin", new { userId = x.UserID }) + " class='' title='Редактировать'><i class='fa fa-pencil-square-o fa-2x'></i></a>")).Header(o => "<span class='glyphicon glyphicon-edit'> </span>").Encode(false)
+                                        .Sortable(false);
+
+
+        //column.Custom(x => Html.Raw("<a href = " + Url.Action("DeleteUser", "Admin", new { userId = x.UserID }) + " class='linkButton glyphicon glyphicon-remove btn-xs btn btn-danger' title='Удалить'></a>")).Named("Options").Header(o => "<span class='glyphicon glyphicon-remove'> </span>").Encode(false)
+        //                                   .Sortable(false); ;
+
+
+         
+
+    }).Sort(Model.GridSortOptions).Attributes(@class => "table table-striped table-bordered table-hover table-condensed grid-style")
+    
+@*<td style="padding-left:20px">@Html.ActionLink("Удалить", "DeleteExpress", "Admin", new { id = image.ProductImageID, productId=image.ProductID}, new { onclick = "javascript:return confirm('Are you  sure?');" })</td>*@
+
+    Html.RenderPartial("Pager", Model.PagedList);
+      <div class="col-lg-12" style="padding: 0; margin: 10px 0 10px 0;">
+        <button type="submit" class="btn btn-md btn-danger" id="remove-prod" style=""><span class="glyphicon glyphicon-remove">&nbsp;</span>Удалить выбранное</button>
+    </div>
+}
+
+@* @Html.ActionLink("Экспорт отчетов в Excel", "Export2", "Admin", new { query = "users" }, null)*@
+
+<script type="text/javascript">
+    $(function () {
+        $(".linkButton").click(
+            function (event) {
+                if (!confirm('Вы уверены, что хотите удалить выбранную запись?')) return false;
+                event.preventDefault();
+                var link = event.target;
+                var action = link.href;
+                while (link.tagName != 'FORM') {
+                    //alert(link.tagName);
+                    link = link.parentElement;
+                    if (!link) {
+                        return;
+                    }
+                }
+                link.action = action;
+                link.method = "POST";
+                link.submit();
+            });
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#chkHeader').change(function () {
+            if ($(this).is(':checked')) {
+                $('.reqPayment').attr('checked', 'checked');
+            } else {
+                $('.reqPayment').removeAttr('checked');
+            }
+        });
+    }); 
+</script>
+
+

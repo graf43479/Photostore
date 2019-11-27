@@ -1,0 +1,32 @@
+﻿@model PhotoStore.Models.PagedViewModel<Domain.Entities.Category>
+           
+ 
+
+@{
+    ViewBag.Title = "Сортировка товара в категориях";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class=""><a href="@Url.Action("Categories", "Admin")">Категории</a> <span class="divider">/</span></li>
+         <li class="active"><a href="@Url.Action("CategorySequenceView", "Admin")">Сортировка категорий</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+<h2>Сортировка товара в категориях</h2>
+
+<div id="sequence2">
+    @{
+        Html.RenderPartial("CategorySequenceGridPartial", Model);
+    }
+
+</div>
+
+
+
+<script>
+    var p = $("#menu li a[href='/Admin/Categories']");
+    p.parent().addClass("selected");
+</script>

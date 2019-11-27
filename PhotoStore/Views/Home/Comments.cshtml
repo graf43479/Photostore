@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Domain.Entities.Comment>
+
+@{
+    ViewBag.Title = "Отзывы";
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    ViewBag.Robots = "follow, index";
+    ViewBag.Keywords = "Комментарии отзывы  фотограф";
+    ViewBag.Snippet = "Отзывы о работе фотографа";
+}
+<div class="page wrapper">
+<div class="revs clearfix" id="revs">
+    <div class="rev photo">
+        <div>
+            @*<a href="inc/rev.html" class="showcase link" data-rel="lightcase" data-height="280">*@
+            <a href=@Url.Action("SendComment") class="showcase link" data-rel="lightcase" data-height="280" rel="nofollow, noindex">
+                Поделиться впечатлениями
+            </a>
+            <p>
+                @*<a class="modal" href="upload-files/6zo1F5mPW4Y.jpg"><img src="upload-files/6zo1F5mPW4Y.jpg" alt="Ada Ocean" width="280" height="421" /></a>*@
+                <img src="@Url.Content("~/Content/images/i.jpg")" alt="Ada Ocean" width="280" height="421" />
+            </p>		
+        </div>
+    </div>
+    @foreach (var comment in Model)
+    {
+        <div class="rev">
+            <div>
+                <p class="nameRev">@comment.Tittle</p>
+                <p><p>@comment.Text</p></p>
+                @*<p class="dateRev">19 августа 2015 г.</p>*@
+                <p class="dateRev">@comment.CreateDate</p>
+            </div>
+        </div>    
+    }
+</div>
+</div>
+

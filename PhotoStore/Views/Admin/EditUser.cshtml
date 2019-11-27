@@ -1,0 +1,106 @@
+﻿@model PhotoStore.Models.UserViewModel
+@{
+    ViewBag.Title = "Admin: Редактирование " + @Model.Login;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@*<script src="@Url.Content("~/Scripts/js/jquery_ui_datepicker.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/jquery_ui_datepicker.css")" rel="stylesheet" type="text/css"/>
+<script src="@Url.Content("~/Scripts/js/jquery_ui_datepicker.js")" type="text/javascript"></script>*@
+
+<style>
+    form {
+        border: none;
+    }
+</style>
+
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class=""><a href="@Url.Action("UsersView", "Admin")">Учетные записи клиентов</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("EditUser", new {userId = @Model.UserID})">Редактировать учетную запись @Model.Login</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+
+@{
+
+    if (User.IsInRole("Admin") || User.IsInRole("ContentManager"))
+    {
+
+<h2>Редактировать аккаунт @Model.Login</h2>
+        using (Html.BeginForm("EditUser", "Admin"))
+        {
+    
+            @*
+              <div class="col-lg-12 col-md-12" style="padding: 0; padding-bottom: 5px;">
+        
+        <div class="form-group" style="padding: 0">
+                <div class="col-lg-2 col-md-2" style="padding: 0"> @Html.Label("Название")</div>    
+                <div class="col-lg-4 col-md-4" style="padding: 0"> @Html.TextBoxFor(model => model.Name, new {@class="form-control"})</div>    
+         
+                <div class="col-lg-2 col-md-2" style="padding: 0; text-align: right; padding-right: 15px;"> @Html.Label("Цена") </div>    
+                <div class="col-lg-4 col-md-4" style="padding: 0"> @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })</div>    
+         </div></div>*@
+            
+            <div class="editor-field"> @Html.HiddenFor(model => model.UserID)</div>
+    
+    <div class="editor-field"> @Html.HiddenFor(model => model.PasswordSalt)</div>    
+    <div class="editor-field"> @Html.HiddenFor(model => model.NewEmailKey)</div>    
+    <div class="editor-field"> @Html.HiddenFor(model => model.IsActivated)</div>    
+    <div class="editor-field"> @Html.HiddenFor(model => model.Password)</div>    
+            
+    <div class="col-lg-12" style="margin: 5px;">
+     <div class="form-group" >
+         
+                <div class="col-lg-1"> @Html.Label("Логин") </div>    
+                <div class="col-lg-2"> @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })</div>    
+     
+                <div class="col-lg-1"> @Html.Label("Email") </div>    
+                <div class="col-lg-2"> @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })</div>   
+         
+                <div class="col-lg-1"> @Html.Label("Активация") </div>    
+         <div class="col-lg-2"> @Html.TextBoxFor(model => model.Created, new { @class = "form-control" })</div>     
+         
+         <div class="col-lg-1"> @Html.Label("Роль") </div>    
+             <div class="col-lg-2 multi-line">  @Html.DropDownListFor(model => model.SelectedRoleID,
+new SelectList(Model.Roles, "RoleID", "RoleName"), "--Выберите роль--", new { @class = "form-control" })</div>
+     
+     </div></div>
+            
+      <div class="col-lg-12" style="margin: 5px;" >
+     <div class="form-group" >
+             <input class="btn btn-info col-lg-2 col-lg-offset-10" value="Сохранить" type="submit" style=""/>
+         
+     </div></div>
+    
+    
+    <!--@Html.EditorForModel()-->
+            //<p>@Session["UserID"]</p>
+    
+    
+@*<br/>
+   <p>@Html.ActionLink("Отменить и вернуться к списку", "Categories")</p>
+    <p>@Html.ActionLink("Перейти в меню администратора", "Actions")</p>*@
+        }
+    }
+    else
+    {
+ 
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Created').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        $.datepicker.setDefaults({ dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'] });
+        $.datepicker.setDefaults({ monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'] });
+        $("#ui-datepicker-div").hide();
+    });
+</script>
+
+
+<script>
+    var p = $("#menu li a[href='/Admin/UsersView']");
+    p.parent().addClass("selected");
+</script>

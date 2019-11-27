@@ -1,0 +1,26 @@
+﻿@model PhotoStore.Models.RegisterModel
+
+
+@{
+    ViewBag.Title = "Активация админской учетной записи";
+    Layout = "~/Views/Shared/_LayoutExtended.cshtml";
+    ViewBag.Robots = "nofollow, noindex";   
+}
+
+   <div class="page wrapper">
+<div class="header">
+<h2>Регистрация администратора сайта</h2>
+</div>
+@using (Html.BeginForm())
+{
+    <p>@Html.ValidationSummary(true)</p>
+    
+    <p>Логин: @Html.EditorFor(x => x.Login) @Html.ValidationMessageFor(x => x.Login)</p>
+    <p>Пароль: @Html.EditorFor(x => x.Password) @Html.ValidationMessageFor(x => x.Password)</p>
+    <p>Пароль: @Html.EditorFor(x => x.ConfirmPassword) @Html.ValidationMessageFor(x => x.ConfirmPassword)</p>
+    <p>Email: @Html.EditorFor(x => x.Email) @Html.ValidationMessageFor(x => x.Email)</p>
+    
+    <input type="submit" class="actionButtons" value="Готово"/>
+    
+}
+</div>

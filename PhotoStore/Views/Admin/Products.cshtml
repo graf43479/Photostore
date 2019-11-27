@@ -1,0 +1,128 @@
+﻿@*@model IEnumerable<Domain.Entities.Category>*@
+@model PhotoStore.Models.PagedViewModel<PhotoStore.Models.ProductViewModel>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>    
+
+@{
+    ViewBag.Title = "Admin: Все фотографии";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ul class="breadcrumb">
+    @{
+        <li><a href="@Url.Action("Index", "Admin")">Главная</a> <span class="divider">/</span></li>
+        <li class="active"><a href="@Url.Action("Products", "Admin")">Фотографии</a> <span class="divider">/</span></li>
+    }
+</ul>
+
+<h2>Список товаров</h2>
+
+@{
+    Html.RenderPartial("ProductSearchBox");
+}
+
+<div class="table-list" id="sequence">
+@{
+   Html.RenderPartial("ProductGridPartial", Model);
+ }
+ </div>
+
+
+@*
+@Html.Grid(Model.PagedList).Columns(column =>
+    {
+        column.For(x => Html.ActionQueryLink(x.Name, "EditProduct", new { productId = x.ProductID })).SortColumnName("Name").Named("Наименование товара").Attributes(x =>
+        {
+            return new Dictionary<string, object> { { "style", "text-align: left; padding-left: 20px;" } };
+        }).InsertAt(0);
+        column.For(x => Html.ActionQueryLink(x.CategoryName, "Products", new {categoryId=x.SelectedCategoryID})).SortColumnName("CategoryName").Named("Категория").InsertAt(1);
+        column.For(x => x.Price).SortColumnName("Price").Named("Цена").InsertAt(2);
+        column.For(x => x.Quantity).SortColumnName("Quantity").Named("Количество").InsertAt(3);
+        column.Custom(x => MvcHtmlString.Create(string.Format("<form action='/Admin/DeleteProduct' method='post'> <input id='productId' name='productId' type='hidden' value='{0}' /><input type='submit' value='Удалить' /></form>", x.ProductID)))
+          .SortColumnName("Name").Sortable(false).Named("Действие");
+        
+   
+       
+    }
+         ).Sort(Model.GridSortOptions).Attributes(@class => "grid-style").Empty("Нет данных")
+*@
+@*
+@Html.Grid(Model.PagedList).Columns(column =>
+{
+    column.Custom(x => MvcHtmlString.Create(string.Format("<a href='{0}'><img class='example-image-link' src='{1}/{2}/{3}' alt='{4}'/></a>",
+                                                          Url.Action("EditCategory", "Admin", new { categoryId = x.CategoryID }),
+                                                          Url.Content("~/Content"),
+                                                          Domain.Constants.CATEGORY_MINI_IMAGES_FOLDER,
+                                                          (string.IsNullOrWhiteSpace(x.ImageExt) || (System.IO.File.Exists(System.IO.Path.Combine(Server.MapPath
+                                                                                                                                                      (@Url.Content("~/Content")),
+                                                                                                                                                  Domain.Constants.CATEGORY_MINI_IMAGES_FOLDER, x.CategoryID.ToString() + x.ImageExt)))) != true ? "0.jpg" : x.CategoryID + x.ImageExt,
+                                                          x.Name
+                                                ))).SortColumnName("Name").Named("Изображение").InsertAt(0);
+
+    column.For(x => Html.ActionQueryLink(x.Name, "EditCategory", new { categoryId = x.CategoryID })).SortColumnName("Name").Named("Категория").InsertAt(1);
+    column.Custom(x => MvcHtmlString.Create(string.Format("<form action='/Admin/DeleteCategory' method='post'> <input id='categoryId' name='categoryId' type='hidden' value='{0}' /><input type='submit' value='Удалить' /></form>", x.CategoryID)))
+          .SortColumnName("Name").Named("Действие");
+}).Sort(Model.GridSortOptions).Attributes(@class => "grid-style")
+
+*@
+
+
+@*
+<table class="Grid">
+   <tr>
+       <th>Название товара </th>
+        <th>Название категории </th>
+        <th class="NumericCol">Цена</th>
+       <th>Количество на складе</th>
+       <th>Действие</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.ActionLink(item.Name, "EditProduct", new {item.ProductID})</td>
+        <td>@item.Category.Name</td>
+        <td class="NumericCol">@item.Price.ToString("c")</td>
+        <td>@item.Quantity</td>
+        <td>
+    @using (Html.BeginForm("DeleteProduct", "Admin"))
+            {
+                @Html.Hidden("ProductID", item.ProductID)
+                <input type="submit" value="Удалить"/>
+            }
+        </td>
+    </tr>
+    }
+
+</table>*@
+
+@*<ul class="sidemenu">
+            <li>@Html.ActionLink("Добавить товар", "CreateProduct")</li>
+             <li>@Html.ActionLink("Перейти в меню администратора", "Actions")</li>
+        </ul>*@
+
+@*
+<br/>
+<p>@Html.ActionLink("Добавить товар", "CreateProduct")</p>    
+<p>@Html.ActionLink("Обновить ссылки", "RefreshAllShortNamesInProducts")</p>    
+<p>@Html.ActionLink("Перейти в меню администратора", "Actions")</p>
+
+
+<script>
+    $(function () {
+        $('#chkHeader').change(function () {
+            if ($(this).is(':checked')) {
+                $('.foo').attr('checked', 'checked');
+            } else {
+                $('.foo').removeAttr('checked');
+            }
+        });
+    });
+</script>
+*@
+
+
+
+
+<script src="@Url.Content("~/Scripts/js/lightbox-2.6.min.js")" type="text/javascript" charset="utf-8"></script>
+
+<link  href="@Url.Content("~/Content/LightBox/screen.css")" rel="stylesheet" media="screen" />
+<link href="@Url.Content("~/Content/LightBox/lightbox.css")" rel="stylesheet"/>
