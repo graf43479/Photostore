@@ -1,0 +1,11 @@
+/.vs/*
+/Domain/bin
+/Domain/obj
+/PhotoStore/bin
+/PhotoStore/obj
+/PhotoStore/App_Data
+/PhotoStore/Content/img
+*.ico
+*.sql
+*.txt
+*.exe
